@@ -1,0 +1,27 @@
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+import pickle
+
+# Example training data
+data = {
+    'VehicleAge': [1, 2, 5, 3, 7, 10, 0, 4],
+    'VehOdo': [10000, 20000, 50000, 30000, 70000, 120000, 5000, 45000],
+    'Auction': [0, 1, 2, 0, 1, 2, 0, 1],  # 0=MANHEIM, 1=ADESA, 2=OTHER
+    'IsBadBuy': [0, 1, 1, 0, 1, 1, 0, 0]  # target variable
+}
+
+df = pd.DataFrame(data)
+
+# Features and target
+X = df[['VehicleAge', 'VehOdo', 'Auction']]
+y = df['IsBadBuy']
+
+# Train model
+model = RandomForestClassifier(n_estimators=10, random_state=42)
+model.fit(X, y)
+
+# Save model
+with open('model.pkl', 'wb') as f:
+    pickle.dump(model, f)
+
+print("model.pkl saved successfully.")
